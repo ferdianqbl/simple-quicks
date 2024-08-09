@@ -1,13 +1,13 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -27,6 +27,10 @@ const config = {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          100: "#2F80ED",
+          400: "#4F4F4F",
+          200: "#828282",
+          300: "#E0E0E0",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -52,6 +56,29 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        indicator: {
+          100: "#F8B76B",
+          200: "#8785FF",
+          300: "#EB5757",
+          400: "#F2C94C",
+        },
+        chats: {
+          100: "#FCEED3",
+          200: "#E5A443",
+          300: "#EEDCFF",
+          400: "#9B51E0",
+          500: "#D2F2EA",
+          600: "#43B78D",
+        },
+        stickers: {
+          100: "#E9F3FF",
+          200: "#FDCFA4",
+          300: "#F9E9C3",
+          400: "#AFEBDB",
+          500: "#CBF1C2",
+          600: "#CFCEF9",
+          700: "#F9E0FD",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -75,6 +102,6 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+} satisfies Config;
 
-export default config
+export default config;
