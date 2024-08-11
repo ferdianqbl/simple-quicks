@@ -10,7 +10,7 @@ type Props = {
 const Inbox: FC<Props> = ({ open, setOpen }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent>INbOXXX</DialogContent>
+      <DialogContent className="">INbOXXX</DialogContent>
     </Dialog>
   );
 };

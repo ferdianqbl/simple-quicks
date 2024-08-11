@@ -9,7 +9,21 @@ type Props = {
 const Task: FC<Props> = ({ open, setOpen }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent>Place content for the popover here.</DialogContent>
+      <DialogContent className="">
+        Place content for the popover here. <br /> This can be any valid JSX
+        component. Place content for the popover here. <br /> This can be any
+        valid JSX component. Place content for the popover here. <br /> This can
+        be any valid JSX component. Place content for the popover here. <br />{" "}
+        This can be any valid JSX component. Place content for the popover here.{" "}
+        <br /> This can be any valid JSX component. Place content for the
+        popover here. <br /> This can be any valid JSX component. Place content
+        for the popover here. <br /> This can be any valid JSX component. Place
+        content for the popover here. <br /> This can be any valid JSX
+        component. Place content for the popover here. <br /> This can be any
+        valid JSX component. Place content for the popover here. <br /> This can
+        be any valid JSX component. Place content for the popover here. <br />{" "}
+        This can be any valid JSX component.
+      </DialogContent>
     </Dialog>
   );
 };
