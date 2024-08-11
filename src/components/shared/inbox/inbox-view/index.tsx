@@ -1,11 +1,15 @@
 import { Input } from "@/components/ui/input";
-import React from "react";
+import { FC } from "react";
 import InboxCard from "./inbox-card";
-import { SearchIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-const InboxView = () => {
+type Props = {
+  setChatView: (chatView: string) => void;
+};
+
+const InboxView: FC<Props> = ({ setChatView }) => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col px-8 py-6">
       <Input
         placeholder="Search"
         type="text"
@@ -13,10 +17,15 @@ const InboxView = () => {
         className="border-primary-400"
       />
       {Array.from({ length: 10 }).map((_, i) => (
-        <>
+        <Button
+          key={i}
+          className="bg-transparent block h-fit w-full hover:bg-transparent whitespace-normal p-0 text-base font-normal text-start"
+          variant={"ghost"}
+          onClick={() => setChatView("chat")}
+        >
           <InboxCard key={i} />
           {i < 9 && <div className="border border-primary-400 w-full"></div>}
-        </>
+        </Button>
       ))}
     </div>
   );

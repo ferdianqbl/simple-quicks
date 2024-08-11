@@ -6,10 +6,10 @@ const InboxCard = () => {
       <div className="flex items-start gap-5">
         <div className="relative">
           <div className="rounded-full bg-primary-300 p-2">
-            <IcPerson color="#828282" />
+            <IcPerson color="#4F4F4F" />
           </div>
           <div className="rounded-full bg-primary-100 p-2 absolute w-full h-full top-0 bottom-0 left-3">
-            <IcPerson color="#F2F2F2" />
+            <IcPerson color="#FFFFFF" />
           </div>
         </div>
         <div className="flex flex-col gap-1">

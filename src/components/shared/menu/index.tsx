@@ -1,12 +1,11 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import Task from "../task";
-import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import Inbox from "../inbox";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -59,28 +58,32 @@ const Menu = () => {
           className=" p-0 pr-2 bg-transparent w-fit min-w-0 rounded-none shadow-none border-none flex items-center gap-2"
         >
           <DropdownMenuItem
-            className="flex flex-col gap-1 border-none shadow-none"
+            className="rounded-none p-0"
             onSelect={() => setTaskOpen(true)}
           >
-            <span className="text-primary-200">Task</span>
-            <Button
-              size={"icon"}
-              className="bg-primary-200 hover:bg-primary-200/80 rounded-full p-2"
-            >
-              <IcTask color="#F8B76B" />
-            </Button>
+            <div className="flex items-center justify-center flex-col gap-1 rounded-none bg-[#333333]">
+              <span className="text-primary-200">Task</span>
+              <Button
+                size={"icon"}
+                className="bg-primary-200 hover:bg-primary-200/80 rounded-full p-2"
+              >
+                <IcTask color="#F8B76B" />
+              </Button>
+            </div>
           </DropdownMenuItem>
           <DropdownMenuItem
-            className="flex flex-col gap-1 border-none shadow-none"
+            className="rounded-none p-0"
             onSelect={() => setInboxOpen(true)}
           >
-            <span className="text-primary-200">Inbox</span>
-            <Button
-              size={"icon"}
-              className="bg-primary-200 hover:bg-primary-200/80 rounded-full p-2"
-            >
-              <IcInbox color="#8785FF" />
-            </Button>
+            <div className="flex items-center justify-center flex-col gap-1 rounded-none bg-[#333333]">
+              <span className="text-primary-200">Inbox</span>
+              <Button
+                size={"icon"}
+                className="bg-primary-200 hover:bg-primary-200/80 rounded-full p-2"
+              >
+                <IcInbox color="#8785FF" />
+              </Button>
+            </div>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
