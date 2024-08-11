@@ -5,14 +5,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import icLightning from "@/assets/ic-cloud-lightning.svg";
 import Task from "../task";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import Inbox from "../inbox";
 import { useState } from "react";
-import icInbox from "@/assets/ic-inbox.svg";
-import icTask from "@/assets/ic-task.svg";
 import { cn } from "@/lib/utils";
+import IcTask from "@/assets/ic-task";
+import IcInbox from "@/assets/ic-inbox";
+import IcCloudLightning from "@/assets/ic-cloud-lightning";
 
 const Menu = () => {
   const [taskOpen, setTaskOpen] = useState(false);
@@ -36,18 +36,20 @@ const Menu = () => {
             ></div>
             <div
               className={cn(
-                "rounded-full transition-colors flex items-center justify-center bg-primary-100 hover:bg-primary-100/80",
-                (taskOpen || inboxOpen) &&
-                  "bg-primary-200 hover:bg-primary-200/80 p-2 absolute top-0 bottom-0 left-2 w-full h-full"
+                "rounded-full transition-colors flex items-center justify-center bg-primary-100 hover:bg-primary-100/80 w-10 h-10",
+                taskOpen &&
+                  "bg-indicator-100 hover:bg-indicator-100/80 p-2 absolute top-0 bottom-0 left-2 w-full h-full",
+                inboxOpen &&
+                  "bg-indicator-200 hover:bg-indicator-200/80 p-2 absolute top-0 bottom-0 left-2 w-full h-full"
               )}
             >
-              <Image
-                src={taskOpen ? icTask : inboxOpen ? icInbox : icLightning}
-                alt="ic"
-                width={100}
-                height={100}
-                className="w-10 h-10"
-              />
+              {taskOpen ? (
+                <IcTask color="#F2F2F2" />
+              ) : inboxOpen ? (
+                <IcInbox color="#F2F2F2" />
+              ) : (
+                <IcCloudLightning color="#F2F2F2" />
+              )}
             </div>
           </Button>
         </DropdownMenuTrigger>
@@ -65,13 +67,7 @@ const Menu = () => {
               size={"icon"}
               className="bg-primary-200 hover:bg-primary-200/80 rounded-full p-2"
             >
-              <Image
-                src={icTask}
-                alt="ic"
-                width={100}
-                height={100}
-                className="w-10 h-10"
-              />
+              <IcTask color="#F8B76B" />
             </Button>
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -83,13 +79,7 @@ const Menu = () => {
               size={"icon"}
               className="bg-primary-200 hover:bg-primary-200/80 rounded-full p-2"
             >
-              <Image
-                src={icInbox}
-                alt="ic"
-                width={100}
-                height={100}
-                className="w-10 h-10"
-              />
+              <IcInbox color="#8785FF" />
             </Button>
           </DropdownMenuItem>
         </DropdownMenuContent>
