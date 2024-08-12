@@ -5,17 +5,29 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { FC } from "react";
 
-const TaskViewSelect = () => {
+type Props = {
+  data: string;
+  setData: (data: string) => void;
+};
+
+const TaskViewSelect: FC<Props> = ({ data, setData }) => {
   return (
-    <Select>
+    <Select
+      value={data.toLowerCase()}
+      onValueChange={(e) => {
+        if (e === "default") setData("all");
+        else setData(e);
+      }}
+    >
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Theme" />
+        <SelectValue placeholder={data === "all" && "My Tasks"} title="text" />
       </SelectTrigger>
       <SelectContent className="">
-        <SelectItem value="light">Light</SelectItem>
-        <SelectItem value="dark">Dark</SelectItem>
-        <SelectItem value="system">System</SelectItem>
+        <SelectItem value="all">My Tasks</SelectItem>
+        <SelectItem value="pending">Pending</SelectItem>
+        <SelectItem value="completed">Completed</SelectItem>
       </SelectContent>
     </Select>
   );

@@ -1,10 +1,15 @@
 import { Textarea } from "@/components/ui/textarea";
+import { TTaskItem } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { PencilIcon } from "lucide-react";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, FC, useState } from "react";
 
-const TaskItemDescription = () => {
-  const [description, setDescription] = useState<string | undefined>();
+type Props = {
+  data: TTaskItem;
+  setDescription: (data: TTaskItem) => void;
+};
+
+const TaskItemDescription: FC<Props> = ({ data, setDescription }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const handleClick = () => {
@@ -16,14 +21,14 @@ const TaskItemDescription = () => {
   };
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setDescription(e.target.value);
+    setDescription({ ...data, description: e.target.value });
   };
 
   return (
     <div className="flex items-start gap-4 w-full">
       <div className="w-fit h-fit">
         <PencilIcon
-          className={cn("h-4 w-4", description && "text-primary-100")}
+          className={cn("h-4 w-4", data?.description && "text-primary-100")}
         />
       </div>
       <div onClick={handleClick} className="cursor-pointer w-full">
@@ -31,9 +36,9 @@ const TaskItemDescription = () => {
           <Textarea
             className={cn(
               "w-full gap-8 text-left font-normal h-fit border-primary-500 text-primary-500 focus-visible:ring-0 ring-0 focus-visible:ring-offset-0",
-              !description && "text-muted-foreground"
+              !data.description && "text-muted-foreground"
             )}
-            value={description}
+            value={data.description}
             onChange={handleChange}
             onBlur={handleBlur}
             autoFocus
@@ -47,8 +52,13 @@ const TaskItemDescription = () => {
             rows={10}
           />
         ) : (
-          <p className="break-words whitespace-normal">
-            {description || "Add a description"}
+          <p
+            className={cn(
+              "break-words whitespace-normal",
+              data.description === "" && "text-muted-foreground"
+            )}
+          >
+            {data.description || "Add a description"}
           </p>
         )}
       </div>
