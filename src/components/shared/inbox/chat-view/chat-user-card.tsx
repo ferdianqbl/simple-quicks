@@ -40,7 +40,16 @@ const ChatUserCard: FC<Props> = ({ role, color, bgChat }) => {
           <p className="text-sm">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit.
             Voluptates, nemo? Distinctio ex dolorum vero! Autem, amet.
-            Repellendus quidem eos aliquam!
+            Repellendus quidem eos aliquam! Lorem ipsum dolor sit, amet
+            consectetur adipisicing elit. Voluptates, nemo? Distinctio ex
+            dolorum vero! Autem, amet. Repellendus quidem eos aliquam! Lorem
+            ipsum dolor sit, amet consectetur adipisicing elit. Voluptates,
+            nemo? Distinctio ex dolorum vero! Autem, amet. Repellendus quidem
+            eos aliquam! Lorem ipsum dolor sit, amet consectetur adipisicing
+            elit. Voluptates, nemo? Distinctio ex dolorum vero! Autem, amet.
+            Repellendus quidem eos aliquam! Lorem ipsum dolor sit, amet
+            consectetur adipisicing elit. Voluptates, nemo? Distinctio ex
+            dolorum vero! Autem, amet. Repellendus quidem eos aliquam!
           </p>
           <span className="text-xs">19:32</span>
         </div>

@@ -3,13 +3,11 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { EllipsisIcon } from "lucide-react";
 
-const DropdownChatUser = () => {
+const DropdownTaskItem = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -21,11 +19,7 @@ const DropdownChatUser = () => {
           <EllipsisIcon className="w-4 h-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-fit w-min-0" align="start">
-        <DropdownMenuItem className="p-1 text-primary-100 text-sm hover:!text-primary-100">
-          Edit
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
+      <DropdownMenuContent className="w-fit w-min-0" align="end">
         <DropdownMenuItem className="p-1 text-indicator-300 text-sm hover:!text-indicator-300">
           Delete
         </DropdownMenuItem>
@@ -34,4 +28,4 @@ const DropdownChatUser = () => {
   );
 };
 
-export default DropdownChatUser;
+export default DropdownTaskItem;

@@ -24,7 +24,7 @@ const ChatView: FC<Props> = ({ setChatView, setOpen }) => {
 
   return (
     <div className="relative overflow-auto h-full">
-      <div className="bg-[#FFFFFF] flex items-center justify-between gap-8 border-b border-[#BDBDBDBD] pb-2  absolute top-0 right-0 left-0 w-full pt-6">
+      <div className="bg-[#FFFFFF] flex items-center justify-between gap-8 border-b border-[#BDBDBDBD] pb-2  fixed top-0 right-0 left-0 w-full pt-6">
         <div className="flex items-center gap-3 pl-6">
           <Button
             size={"icon"}
@@ -74,7 +74,7 @@ const ChatView: FC<Props> = ({ setChatView, setOpen }) => {
       <div className="absolute bottom-0 right-0 left-0 w-full pb-2 px-6 gap-4 z-0">
         test
       </div>
-      <div className="flex flex-col absolute bottom-0 right-0 left-0 w-full pb-2 px-6 gap-4 z-0">
+      <div className="flex flex-col fixed bottom-0 right-0 left-0 w-full py-2 px-6 gap-4 z-0 bg-background">
         {loading && (
           <div className="bg-stickers-100 px-4 py-2 rounded-md text-primary-500 font-bold text-sm flex items-center gap-1">
             <LoaderCircleIcon className="w-4 h-4 animate-spin text-primary-100" />
