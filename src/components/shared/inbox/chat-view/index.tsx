@@ -10,15 +10,15 @@ import { format } from "date-fns";
 const colors = [
   {
     color: "#9b51e0",
-    bg: "##eedcff",
+    bg: "#eedcff",
   },
   {
     color: "#E5A443",
-    bg: "##FCEED3",
+    bg: "#FCEED3",
   },
   {
     color: "#43B78D",
-    bg: "##D2F2EA",
+    bg: "#D2F2EA",
   },
 ];
 
