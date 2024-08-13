@@ -2,12 +2,15 @@ import { Input } from "@/components/ui/input";
 import { FC } from "react";
 import InboxCard from "./inbox-card";
 import { Button } from "@/components/ui/button";
+import { TInboxData } from "@/lib/types";
 
 type Props = {
+  data: TInboxData[];
+  setInboxId: (chatId: number) => void;
   setChatView: (chatView: string) => void;
 };
 
-const InboxView: FC<Props> = ({ setChatView }) => {
+const InboxView: FC<Props> = ({ setChatView, setInboxId, data }) => {
   return (
     <div className="flex flex-col px-8 py-6">
       <Input
@@ -16,15 +19,20 @@ const InboxView: FC<Props> = ({ setChatView }) => {
         isSearch
         className="border-primary-400"
       />
-      {Array.from({ length: 10 }).map((_, i) => (
+      {data.map((inbox, index) => (
         <Button
-          key={i}
+          key={inbox.id + index}
           className="bg-transparent block h-fit w-full hover:bg-transparent whitespace-normal p-0 text-base font-normal text-start"
           variant={"ghost"}
-          onClick={() => setChatView("chat")}
+          onClick={() => {
+            setInboxId(inbox.id);
+            setChatView("chat");
+          }}
         >
-          <InboxCard key={i} id={i} />
-          {i < 9 && <div className="border border-primary-400 w-full"></div>}
+          <InboxCard data={inbox} />
+          {index < 9 && (
+            <div className="border border-primary-400 w-full"></div>
+          )}
         </Button>
       ))}
     </div>

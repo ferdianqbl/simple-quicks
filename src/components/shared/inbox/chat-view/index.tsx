@@ -4,8 +4,8 @@ import { Input } from "@/components/ui/input";
 import { ArrowLeftIcon, LoaderCircleIcon, XIcon } from "lucide-react";
 import { FC, useEffect, useState } from "react";
 import ChatUserCard from "./chat-user-card";
-import ChatData from "./chat-data.json";
 import { format } from "date-fns";
+import { TChatData, TInboxData } from "@/lib/types";
 
 const colors = [
   {
@@ -23,18 +23,33 @@ const colors = [
 ];
 
 type Props = {
+  chatData: TInboxData;
   setChatView: (chatView: string) => void;
+  setInboxData: (data: TInboxData[]) => void;
   setOpen?: (open: boolean) => void;
 };
 
-const ChatView: FC<Props> = ({ setChatView, setOpen }) => {
-  const [chatData, setChatData] = useState(ChatData);
+const ChatView: FC<Props> = ({
+  chatData,
+  setChatView,
+  setOpen,
+  setInboxData,
+}) => {
   const [loading, setLoading] = useState(true);
+
   const fetchingData = async () => {
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     setLoading(false);
   };
+
+  const addNewMessage = ({
+    message,
+    sender,
+  }: {
+    message: string;
+    sender: number;
+  }) => {};
 
   useEffect(() => {
     fetchingData();
@@ -74,7 +89,7 @@ const ChatView: FC<Props> = ({ setChatView, setOpen }) => {
       </div>
       {!loading && (
         <div className="max-h-[65vh] h-full overflow-auto px-6 pt-24 pb-11 flex flex-col gap-4">
-          {chatData.map((chat, index) => (
+          {chatData.contents.map((chat, index) => (
             <>
               <div className="w-full text-center text-sm flex items-center gap-2">
                 <div className="w-full h-[1px] bg-primary-500"></div>
@@ -89,7 +104,7 @@ const ChatView: FC<Props> = ({ setChatView, setOpen }) => {
                   bgChat={colors[message.sender - 1].bg}
                   color={colors[message.sender - 1].color}
                   data={{
-                    participants: chat.participants,
+                    participants: chatData.participants,
                     messages: message,
                   }}
                 />

@@ -4,6 +4,7 @@ import { LoaderCircleIcon } from "lucide-react";
 import { FC, useEffect, useState } from "react";
 import InboxView from "./inbox-view";
 import ChatView from "./chat-view";
+import InboxData from "./inbox-data.json";
 
 type Props = {
   open?: boolean;
@@ -13,6 +14,9 @@ type Props = {
 const Inbox: FC<Props> = ({ open, setOpen }) => {
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState("inbox");
+  const [data, setData] = useState(InboxData);
+  const [inboxId, setInboxId] = useState(0);
+
   const fetchingData = async () => {
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -42,9 +46,18 @@ const Inbox: FC<Props> = ({ open, setOpen }) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="">
         {view === "inbox" ? (
-          <InboxView setChatView={setView} />
+          <InboxView
+            setChatView={setView}
+            setInboxId={setInboxId}
+            data={data}
+          />
         ) : (
-          <ChatView setChatView={setView} setOpen={setOpen} />
+          <ChatView
+            chatData={data.filter((item) => item.id === inboxId)[0]}
+            setChatView={setView}
+            setOpen={setOpen}
+            setInboxData={setData}
+          />
         )}
       </DialogContent>
     </Dialog>

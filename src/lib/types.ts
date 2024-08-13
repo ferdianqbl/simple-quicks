@@ -20,6 +20,11 @@ export type TMessage = {
 
 export type TChatData = {
   date: string;
-  participants: TParticipant[];
   messages: TMessage[];
+};
+
+export type TInboxData = {
+  id: number;
+  participants: TParticipant[];
+  contents: TChatData[];
 };
