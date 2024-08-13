@@ -4,6 +4,23 @@ import { Input } from "@/components/ui/input";
 import { ArrowLeftIcon, LoaderCircleIcon, XIcon } from "lucide-react";
 import { FC, useEffect, useState } from "react";
 import ChatUserCard from "./chat-user-card";
+import ChatData from "./chat-data.json";
+import { format } from "date-fns";
+
+const colors = [
+  {
+    color: "#9b51e0",
+    bg: "##eedcff",
+  },
+  {
+    color: "#E5A443",
+    bg: "##FCEED3",
+  },
+  {
+    color: "#43B78D",
+    bg: "##D2F2EA",
+  },
+];
 
 type Props = {
   setChatView: (chatView: string) => void;
@@ -11,6 +28,7 @@ type Props = {
 };
 
 const ChatView: FC<Props> = ({ setChatView, setOpen }) => {
+  const [chatData, setChatData] = useState(ChatData);
   const [loading, setLoading] = useState(true);
   const fetchingData = async () => {
     setLoading(true);
@@ -56,24 +74,31 @@ const ChatView: FC<Props> = ({ setChatView, setOpen }) => {
       </div>
       {!loading && (
         <div className="max-h-[65vh] h-full overflow-auto px-6 pt-24 pb-11 flex flex-col gap-4">
-          <ChatUserCard role="user" />
-          <ChatUserCard role="team" bgChat="#FCEED3" color="#E5A443" />
-          <ChatUserCard role="user" />
-          <div className="w-full text-center text-sm flex items-center gap-2">
-            <div className="w-full h-[1px] bg-primary-500"></div>
-            <span className="w-fit whitespace-nowrap text-primary-500 font-bold">
-              Today June 09, 2021
-            </span>
-            <div className="w-full h-[1px] bg-primary-500"></div>
-          </div>
-          <ChatUserCard role="user" />
-          <ChatUserCard role="team" bgChat="#FCEED3" color="#E5A443" />
-          <ChatUserCard role="user" />
+          {chatData.map((chat, index) => (
+            <>
+              <div className="w-full text-center text-sm flex items-center gap-2">
+                <div className="w-full h-[1px] bg-primary-500"></div>
+                <span className="w-fit whitespace-nowrap text-primary-500 font-bold">
+                  {format(new Date(chat.date), "dd MMMM yyyy")}
+                </span>
+                <div className="w-full h-[1px] bg-primary-500"></div>
+              </div>
+              {chat.messages.map((message, index) => (
+                <ChatUserCard
+                  role={message.sender === 1 ? "user" : "team"}
+                  bgChat={colors[message.sender - 1].bg}
+                  color={colors[message.sender - 1].color}
+                  data={{
+                    participants: chat.participants,
+                    messages: message,
+                  }}
+                />
+              ))}
+            </>
+          ))}
         </div>
       )}
-      <div className="absolute bottom-0 right-0 left-0 w-full pb-2 px-6 gap-4 z-0">
-        test
-      </div>
+
       <div className="flex flex-col fixed bottom-0 right-0 left-0 w-full py-2 px-6 gap-4 z-0 bg-background">
         {loading && (
           <div className="bg-stickers-100 px-4 py-2 rounded-md text-primary-500 font-bold text-sm flex items-center gap-1">

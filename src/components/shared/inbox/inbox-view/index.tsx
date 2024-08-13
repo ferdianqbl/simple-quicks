@@ -23,7 +23,7 @@ const InboxView: FC<Props> = ({ setChatView }) => {
           variant={"ghost"}
           onClick={() => setChatView("chat")}
         >
-          <InboxCard key={i} />
+          <InboxCard key={i} id={i} />
           {i < 9 && <div className="border border-primary-400 w-full"></div>}
         </Button>
       ))}

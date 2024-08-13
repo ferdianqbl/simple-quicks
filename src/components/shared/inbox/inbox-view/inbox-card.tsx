@@ -1,6 +1,11 @@
 import IcPerson from "@/assets/ic-person";
+import { FC } from "react";
 
-const InboxCard = () => {
+type Props = {
+  id: number;
+};
+
+const InboxCard: FC<Props> = ({ id }) => {
   return (
     <div className="flex w-full gap-8 py-[22px]">
       <div className="flex items-start gap-5">
@@ -25,7 +30,9 @@ const InboxCard = () => {
       </div>
       <div className="flex flex-col gap-3 justify-between items-end">
         <span className="text-sm whitespace-nowrap">02/06/2021 10:45</span>
-        <span className="rounded-full bg-indicator-300 w-2 h-2"></span>
+        {id % 2 === 0 && (
+          <span className="rounded-full bg-indicator-300 w-2 h-2"></span>
+        )}
       </div>
     </div>
   );

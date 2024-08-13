@@ -1,14 +1,20 @@
 import { FC } from "react";
 import DropdownChatUser from "./dropdown-chat-user";
 import { cn } from "@/lib/utils";
+import { TChatData, TMessage, TParticipant } from "@/lib/types";
+import { format } from "date-fns";
 
 type Props = {
   role: "user" | "team";
   color?: string;
   bgChat?: string;
+  data: {
+    participants: TParticipant[];
+    messages: TMessage;
+  };
 };
 
-const ChatUserCard: FC<Props> = ({ role, color, bgChat }) => {
+const ChatUserCard: FC<Props> = ({ role, color, bgChat, data }) => {
   return (
     <div
       className={cn(
@@ -22,7 +28,11 @@ const ChatUserCard: FC<Props> = ({ role, color, bgChat }) => {
           color: color,
         }}
       >
-        You
+        {
+          data.participants.filter(
+            (participant) => participant.id === data.messages.sender
+          )[0].name
+        }
       </span>
       <div
         className={cn(
@@ -37,21 +47,10 @@ const ChatUserCard: FC<Props> = ({ role, color, bgChat }) => {
             backgroundColor: bgChat,
           }}
         >
-          <p className="text-sm">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-            Voluptates, nemo? Distinctio ex dolorum vero! Autem, amet.
-            Repellendus quidem eos aliquam! Lorem ipsum dolor sit, amet
-            consectetur adipisicing elit. Voluptates, nemo? Distinctio ex
-            dolorum vero! Autem, amet. Repellendus quidem eos aliquam! Lorem
-            ipsum dolor sit, amet consectetur adipisicing elit. Voluptates,
-            nemo? Distinctio ex dolorum vero! Autem, amet. Repellendus quidem
-            eos aliquam! Lorem ipsum dolor sit, amet consectetur adipisicing
-            elit. Voluptates, nemo? Distinctio ex dolorum vero! Autem, amet.
-            Repellendus quidem eos aliquam! Lorem ipsum dolor sit, amet
-            consectetur adipisicing elit. Voluptates, nemo? Distinctio ex
-            dolorum vero! Autem, amet. Repellendus quidem eos aliquam!
-          </p>
-          <span className="text-xs">19:32</span>
+          <p className="text-sm">{data.messages.message}</p>
+          <span className="text-xs">
+            {format(new Date(data.messages.timestamp), "HH:mm")}
+          </span>
         </div>
       </div>
     </div>
