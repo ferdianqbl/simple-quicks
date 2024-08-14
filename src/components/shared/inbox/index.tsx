@@ -5,6 +5,7 @@ import { FC, useEffect, useState } from "react";
 import InboxView from "./inbox-view";
 import ChatView from "./chat-view";
 import InboxData from "./inbox-data.json";
+import { TChatData, TInboxData } from "@/lib/types";
 
 type Props = {
   open?: boolean;
@@ -14,13 +15,22 @@ type Props = {
 const Inbox: FC<Props> = ({ open, setOpen }) => {
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState("inbox");
-  const [data, setData] = useState(InboxData);
+  const [data, setData] = useState<TInboxData[]>(InboxData);
   const [inboxId, setInboxId] = useState(0);
 
   const fetchingData = async () => {
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     setLoading(false);
+  };
+
+  const updateInboxData = (newData: TInboxData) => {
+    setData(
+      data.map((item) => {
+        if (item.id === newData.id) return newData;
+        return item;
+      })
+    );
   };
 
   useEffect(() => {
@@ -56,7 +66,7 @@ const Inbox: FC<Props> = ({ open, setOpen }) => {
             chatData={data.filter((item) => item.id === inboxId)[0]}
             setChatView={setView}
             setOpen={setOpen}
-            setInboxData={setData}
+            setInboxData={updateInboxData}
           />
         )}
       </DialogContent>

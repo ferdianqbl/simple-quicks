@@ -30,7 +30,7 @@ const InboxView: FC<Props> = ({ setChatView, setInboxId, data }) => {
           }}
         >
           <InboxCard data={inbox} />
-          {index < 9 && (
+          {index < data.length - 1 && (
             <div className="border border-primary-400 w-full"></div>
           )}
         </Button>

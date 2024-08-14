@@ -25,7 +25,7 @@ const colors = [
 type Props = {
   chatData: TInboxData;
   setChatView: (chatView: string) => void;
-  setInboxData: (data: TInboxData[]) => void;
+  setInboxData: (data: TInboxData) => void;
   setOpen?: (open: boolean) => void;
 };
 
@@ -36,7 +36,14 @@ const ChatView: FC<Props> = ({
   setInboxData,
 }) => {
   const [loading, setLoading] = useState(true);
-
+  const [data, setData] = useState<TInboxData>(chatData);
+  const [dataInput, setDataInput] = useState<{
+    message: string;
+    sender: number;
+  }>({
+    message: "",
+    sender: 1,
+  });
   const fetchingData = async () => {
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -49,7 +56,53 @@ const ChatView: FC<Props> = ({
   }: {
     message: string;
     sender: number;
-  }) => {};
+  }) => {
+    const dataToday = chatData.contents.filter(
+      (chat) =>
+        format(new Date(chat.date), "dd MMMM yyyy") ===
+        format(new Date(), "dd MMMM yyyy")
+    );
+
+    if (dataToday.length > 0) {
+      const chatIndex = chatData.contents.findIndex(
+        (chat) => chat.date === dataToday[0].date
+      );
+      const newMessage = {
+        id: chatData.contents[chatIndex].messages.length + 1,
+        sender: sender,
+        message: message,
+        timestamp: new Date().toString(),
+      };
+      data.contents[chatIndex].messages.push(newMessage);
+    } else {
+      const newChat = {
+        date: format(new Date(), "yyyy-MM-dd"),
+        messages: [
+          {
+            id: 1,
+            sender: sender,
+            message: message,
+            timestamp: new Date().toString(),
+          },
+        ],
+      };
+      data.contents.push(newChat);
+    }
+
+    setInboxData(data);
+  };
+
+  const deleteMessage = (messageId: number, timestamp: string) => {
+    const chatIndex = chatData.contents.findIndex(
+      (chat) => chat.date === timestamp
+    );
+    const newMessages = chatData.contents[chatIndex].messages.filter(
+      (message) => message.id !== messageId
+    );
+    data.contents[chatIndex].messages = newMessages;
+
+    setInboxData(data);
+  };
 
   useEffect(() => {
     fetchingData();
@@ -72,7 +125,9 @@ const ChatView: FC<Props> = ({
               Jeannette Moraima Guaman Chamba (Hutto l-589) [Hutto Follow Up -
               Brief Service]
             </span>
-            <span className="text-sm line-clamp-1">3 Participants</span>
+            <span className="text-sm line-clamp-1">
+              {chatData.participants.length} participants
+            </span>
           </div>
         </div>
         <Button
@@ -91,15 +146,21 @@ const ChatView: FC<Props> = ({
         <div className="max-h-[65vh] h-full overflow-auto px-6 pt-24 pb-11 flex flex-col gap-4">
           {chatData.contents.map((chat, index) => (
             <>
-              <div className="w-full text-center text-sm flex items-center gap-2">
-                <div className="w-full h-[1px] bg-primary-500"></div>
-                <span className="w-fit whitespace-nowrap text-primary-500 font-bold">
-                  {format(new Date(chat.date), "dd MMMM yyyy")}
-                </span>
-                <div className="w-full h-[1px] bg-primary-500"></div>
-              </div>
+              {chat.messages.length > 0 && (
+                <div
+                  className="w-full text-center text-sm flex items-center gap-2"
+                  key={chat.date}
+                >
+                  <div className="w-full h-[1px] bg-primary-500"></div>
+                  <span className="w-fit whitespace-nowrap text-primary-500 font-bold">
+                    {format(new Date(chat.date), "dd MMMM yyyy")}
+                  </span>
+                  <div className="w-full h-[1px] bg-primary-500"></div>
+                </div>
+              )}
               {chat.messages.map((message, index) => (
                 <ChatUserCard
+                  onChangeData={{ delete: deleteMessage }}
                   role={message.sender === 1 ? "user" : "team"}
                   bgChat={colors[message.sender - 1].bg}
                   color={colors[message.sender - 1].color}
@@ -126,8 +187,18 @@ const ChatView: FC<Props> = ({
             placeholder="Type a new message"
             type="text"
             className="w-full"
+            value={dataInput.message}
+            onChange={(e) =>
+              setDataInput({ ...dataInput, message: e.target.value })
+            }
           />
-          <Button className=" w-fit h-full">Send</Button>
+          <Button
+            className=" w-fit h-full"
+            type="button"
+            onClick={() => addNewMessage(dataInput)}
+          >
+            Send
+          </Button>
         </div>
       </div>
     </div>

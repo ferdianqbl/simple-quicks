@@ -12,9 +12,18 @@ type Props = {
     participants: TParticipant[];
     messages: TMessage;
   };
+  onChangeData: {
+    delete: (messageId: number, timestamp: string) => void;
+  };
 };
 
-const ChatUserCard: FC<Props> = ({ role, color, bgChat, data }) => {
+const ChatUserCard: FC<Props> = ({
+  role,
+  color,
+  bgChat,
+  data,
+  onChangeData,
+}) => {
   return (
     <div
       className={cn(
@@ -40,7 +49,7 @@ const ChatUserCard: FC<Props> = ({ role, color, bgChat, data }) => {
           role === "team" ? "flex-row-reverse" : "flex-row"
         )}
       >
-        <DropdownChatUser />
+        <DropdownChatUser onChangeData={onChangeData} data={data.messages} />
         <div
           className="w-fit p-2 bg-chats-300 rounded-md text-primary-500 flex flex-col gap-1"
           style={{
