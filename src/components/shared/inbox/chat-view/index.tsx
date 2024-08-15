@@ -5,7 +5,8 @@ import { ArrowLeftIcon, LoaderCircleIcon, XIcon } from "lucide-react";
 import { FC, useEffect, useState } from "react";
 import ChatUserCard from "./chat-user-card";
 import { format } from "date-fns";
-import { TChatData, TInboxData } from "@/lib/types";
+import { TChatData, TInboxData, TMessage } from "@/lib/types";
+import { useEditStore } from "@/lib/hooks/use-edit-store";
 
 const colors = [
   {
@@ -36,7 +37,8 @@ const ChatView: FC<Props> = ({
   setInboxData,
 }) => {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<TInboxData>(chatData);
+  const { isEdit, setIsEdit, editData, setEditData } = useEditStore();
+  const data: TInboxData = chatData;
   const [dataInput, setDataInput] = useState<{
     message: string;
     sender: number;
@@ -67,12 +69,14 @@ const ChatView: FC<Props> = ({
       const chatIndex = chatData.contents.findIndex(
         (chat) => chat.date === dataToday[0].date
       );
+
       const newMessage = {
         id: chatData.contents[chatIndex].messages.length + 1,
         sender: sender,
         message: message,
         timestamp: new Date().toString(),
       };
+
       data.contents[chatIndex].messages.push(newMessage);
     } else {
       const newChat = {
@@ -90,6 +94,40 @@ const ChatView: FC<Props> = ({
     }
 
     setInboxData(data);
+    setDataInput({ message: "", sender: 1 });
+  };
+
+  const updateMessage = (updateData: TMessage) => {
+    const content = data.contents.find(
+      (chat) =>
+        chat.date === format(new Date(updateData.timestamp), "yyyy-MM-dd")
+    );
+
+    if (!content) return;
+
+    const updatedMessages = content.messages.map((message) => {
+      if (message.id === updateData.id) {
+        return updateData;
+      }
+      return message;
+    });
+
+    const updatedContents = data.contents.map((chat) => {
+      if (chat.date === format(new Date(updateData.timestamp), "yyyy-MM-dd")) {
+        return { ...chat, messages: updatedMessages };
+      }
+      return chat;
+    });
+
+    const updatedChatData: TInboxData = {
+      ...chatData,
+      contents: updatedContents,
+    };
+
+    setInboxData(updatedChatData);
+    setIsEdit(false);
+    setEditData({ id: 0, message: "", sender: 0, timestamp: "" });
+    setDataInput({ message: "", sender: 1 });
   };
 
   const deleteMessage = (messageId: number, timestamp: string) => {
@@ -158,12 +196,28 @@ const ChatView: FC<Props> = ({
                   <div className="w-full h-[1px] bg-primary-500"></div>
                 </div>
               )}
-              {chat.messages.map((message, index) => (
+              {chat.messages.map((message) => (
                 <ChatUserCard
                   onChangeData={{ delete: deleteMessage }}
                   role={message.sender === 1 ? "user" : "team"}
-                  bgChat={colors[message.sender - 1].bg}
-                  color={colors[message.sender - 1].color}
+                  bgChat={
+                    message.sender === 1
+                      ? colors[0].bg
+                      : colors[
+                          data.participants.findIndex(
+                            (item) => item.id === message.sender
+                          )
+                        ].bg
+                  }
+                  color={
+                    message.sender === 1
+                      ? colors[0].color
+                      : colors[
+                          data.participants.findIndex(
+                            (item) => item.id === message.sender
+                          )
+                        ].color
+                  }
                   data={{
                     participants: chatData.participants,
                     messages: message,
@@ -187,18 +241,50 @@ const ChatView: FC<Props> = ({
             placeholder="Type a new message"
             type="text"
             className="w-full"
-            value={dataInput.message}
+            value={isEdit ? editData.message : dataInput.message}
             onChange={(e) =>
-              setDataInput({ ...dataInput, message: e.target.value })
+              isEdit
+                ? setEditData({ ...editData, message: e.target.value })
+                : setDataInput({ ...dataInput, message: e.target.value })
             }
           />
-          <Button
-            className=" w-fit h-full"
-            type="button"
-            onClick={() => addNewMessage(dataInput)}
-          >
-            Send
-          </Button>
+          <div className="flex items-center gap-1">
+            {isEdit ? (
+              <>
+                <Button
+                  className=" w-fit h-full"
+                  type="button"
+                  onClick={() => updateMessage(editData)}
+                >
+                  Edit
+                </Button>
+                <Button
+                  className="w-fit h-full"
+                  type="button"
+                  variant={"ghost"}
+                  onClick={() => {
+                    setIsEdit(false);
+                    setEditData({
+                      id: 0,
+                      message: "",
+                      sender: 0,
+                      timestamp: "",
+                    });
+                  }}
+                >
+                  Cancel
+                </Button>
+              </>
+            ) : (
+              <Button
+                className=" w-fit h-full"
+                type="button"
+                onClick={() => addNewMessage(dataInput)}
+              >
+                Send
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </div>

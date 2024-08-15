@@ -7,6 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useEditStore } from "@/lib/hooks/use-edit-store";
 import { TMessage } from "@/lib/types";
 import { format } from "date-fns";
 import { EllipsisIcon } from "lucide-react";
@@ -20,6 +21,7 @@ type Props = {
 };
 
 const DropdownChatUser: FC<Props> = ({ data, onChangeData }) => {
+  const { setIsEdit, setEditData } = useEditStore();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -32,7 +34,13 @@ const DropdownChatUser: FC<Props> = ({ data, onChangeData }) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-fit w-min-0" align="start">
-        <DropdownMenuItem className="p-1 text-primary-100 text-sm hover:!text-primary-100">
+        <DropdownMenuItem
+          className="p-1 text-primary-100 text-sm hover:!text-primary-100"
+          onClick={() => {
+            setIsEdit(true);
+            setEditData(data);
+          }}
+        >
           Edit
         </DropdownMenuItem>
         <DropdownMenuSeparator />
