@@ -43,6 +43,7 @@ const Task: FC<Props> = ({ open, setOpen }) => {
       description: "",
       date: "",
       status: "pending",
+      tags: [],
     };
     setData([...data, newData]);
     setValue(newData.id.toString());
@@ -63,6 +64,10 @@ const Task: FC<Props> = ({ open, setOpen }) => {
               description: updateData.description.toString(),
               status: updateData.status.toString(),
               title: updateData.title.toString(),
+              tags: updateData.tags.map((tag) => ({
+                value: tag.value.toString(),
+                label: tag.label.toString(),
+              })),
             }
           : item
       )

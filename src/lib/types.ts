@@ -4,6 +4,7 @@ export type TTaskItem = {
   description: string;
   date: string;
   status: string;
+  tags: Record<"value" | "label", string>[];
 };
 
 export type TParticipant = {

@@ -25,7 +25,7 @@ const TaskItemDescription: FC<Props> = ({ data, setDescription }) => {
   };
 
   return (
-    <div className="flex items-start gap-4 w-full">
+    <div className="flex items-start gap-4 w-full pl-3">
       <div className="w-fit h-fit">
         <PencilIcon
           className={cn("h-4 w-4", data?.description && "text-primary-100")}
@@ -55,7 +55,8 @@ const TaskItemDescription: FC<Props> = ({ data, setDescription }) => {
           <p
             className={cn(
               "break-words whitespace-normal",
-              data.description === "" && "text-muted-foreground"
+              data.description === "" && "text-muted-foreground",
+              !data.description && "max-h-32 h-full overflow-auto"
             )}
           >
             {data.description || "Add a description"}

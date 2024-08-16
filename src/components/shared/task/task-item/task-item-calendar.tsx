@@ -36,7 +36,7 @@ const TaskItemCalendar: FC<Props> = ({ data, setDate }) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 pl-3">
           <ClockIcon
             className={cn("ml-auto h-4 w-4", data?.date && "text-primary-100")}
           />

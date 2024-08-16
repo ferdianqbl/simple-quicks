@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { TTaskItem } from "@/lib/types";
 import { Input } from "@/components/ui/input";
 import { format, formatDistanceToNow } from "date-fns";
+import MultiSelect from "@/components/shared/task/task-item/multi-select";
 
 type Props = {
   dataActive: {
@@ -45,7 +46,10 @@ const TaskItem: FC<Props> = ({ dataActive, data, onChangeData }) => {
   };
 
   return (
-    <AccordionItem value={data.id.toString()} className="border-primary-500">
+    <AccordionItem
+      value={data.id.toString()}
+      className="border-primary-500 relative"
+    >
       <div className="flex items-center gap-1 w-full h-full">
         <Checkbox
           className=""
@@ -74,7 +78,7 @@ const TaskItem: FC<Props> = ({ dataActive, data, onChangeData }) => {
             ) : (
               <label
                 className={cn(
-                  "text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 w-fit text-start text-primary-500 font-bold cursor-pointer line-clamp-1 h-full",
+                  "text-sm peer-disabled:cursor-not-allowed peer-disabled:opacity-70 w-fit text-start text-primary-500 font-bold cursor-pointer line-clamp-1 h-full",
                   data.status === "completed" && "line-through",
                   data.title === "" && "text-primary-400 font-normal"
                 )}
@@ -83,25 +87,29 @@ const TaskItem: FC<Props> = ({ dataActive, data, onChangeData }) => {
               </label>
             )}
           </div>
-          <div className="flex items-center gap-1 text-sm">
-            {data.date && (
-              <>
-                <span className="text-indicator-300 whitespace-nowrap">
-                  {formatDistanceToNow(data.date, { addSuffix: true })}
-                </span>
-                <span className="text-primary-500 whitespace-nowrap">
-                  {format(data.date, "dd/MM/yyyy")}
-                </span>
-              </>
+          <div
+            className={cn(
+              "flex items-center gap-1 text-sm",
+              data.date ? "" : "invisible"
             )}
+          >
+            <span className="text-indicator-300 whitespace-nowrap">
+              {formatDistanceToNow(data.date || new Date(), {
+                addSuffix: true,
+              })}
+            </span>
+            <span className="text-primary-500 whitespace-nowrap">
+              {format(data.date || new Date(), "dd/MM/yyyy")}
+            </span>
           </div>
         </AccordionTrigger>
         <DropdownTaskItem data={data} setData={onChangeData.delete} />
       </div>
-      <AccordionContent>
+      <AccordionContent className="">
         <div className="flex flex-col gap-4 items-start">
           <TaskItemCalendar data={data} setDate={onChangeData.edit} />
           <TaskItemDescription data={data} setDescription={onChangeData.edit} />
+          <MultiSelect dataMain={data} setDataMain={onChangeData.edit} />
         </div>
       </AccordionContent>
     </AccordionItem>
