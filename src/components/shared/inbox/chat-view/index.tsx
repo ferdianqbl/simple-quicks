@@ -73,11 +73,19 @@ const ChatView: FC<Props> = ({
         (chat) => chat.date === dataToday[0].date
       );
 
-      const newMessage = {
+      const newMessage: TMessage = {
         id: chatData.contents[chatIndex].messages.length + 1,
         sender: sender,
         message: message,
         timestamp: new Date().toString(),
+        reply: isReply
+          ? {
+              ...replyData,
+              name:
+                chatData.participants.find((p) => p.id === replyData.sender)
+                  ?.name || "",
+            }
+          : undefined,
       };
 
       data.contents[chatIndex].messages.push(newMessage);
@@ -90,6 +98,14 @@ const ChatView: FC<Props> = ({
             sender: sender,
             message: message,
             timestamp: new Date().toString(),
+            reply: isReply
+              ? {
+                  ...replyData,
+                  name:
+                    chatData.participants.find((p) => p.id === replyData.sender)
+                      ?.name || "",
+                }
+              : undefined,
           },
         ],
       };
@@ -98,6 +114,10 @@ const ChatView: FC<Props> = ({
 
     setInboxData(data);
     setDataInput({ message: "", sender: 1 });
+    setIsReply(false);
+    setReplyData({ id: 0, message: "", sender: 0, timestamp: "" });
+    setIsEdit(false);
+    setEditData({ id: 0, message: "", sender: 0, timestamp: "" });
   };
 
   const updateMessage = (updateData: TMessage) => {
@@ -257,7 +277,11 @@ const ChatView: FC<Props> = ({
             {isReply && (
               <div className="bg-primary-200 border-primary-500 border px-4 py-2 rounded-t-md text-primary-400  text-sm flex gap-1 flex-col">
                 <div className="flex items-start font-bold w-full justify-between text-primary-500">
-                  Replying to test{" "}
+                  Replying to{" "}
+                  {
+                    chatData.participants.find((p) => p.id === replyData.sender)
+                      ?.name
+                  }
                   <Button
                     className="p-0 w-fit h-fit"
                     variant={"ghost"}

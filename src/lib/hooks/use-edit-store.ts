@@ -10,7 +10,7 @@ type Store = {
 
 const useEditStore = create<Store>()((set) => ({
   isEdit: false,
-  setIsEdit: () => set((state) => ({ isEdit: !state.isEdit })),
+  setIsEdit: (state) => set({ isEdit: state }),
   editData: {
     id: 0,
     message: "",

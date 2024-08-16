@@ -17,6 +17,9 @@ export type TMessage = {
   sender: number;
   message: string;
   timestamp: string;
+  reply?: {
+    name: string;
+  } & TMessage;
 };
 
 export type TChatData = {
