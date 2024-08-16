@@ -49,7 +49,11 @@ const ChatUserCard: FC<Props> = ({
           role === "team" ? "flex-row-reverse" : "flex-row"
         )}
       >
-        <DropdownChatUser onChangeData={onChangeData} data={data.messages} />
+        <DropdownChatUser
+          role={role}
+          onChangeData={onChangeData}
+          data={data.messages}
+        />
         <div
           className="w-fit p-2 bg-chats-300 rounded-md text-primary-500 flex flex-col gap-1"
           style={{
