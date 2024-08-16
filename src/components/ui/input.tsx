@@ -6,10 +6,11 @@ import { SearchIcon } from "lucide-react";
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   isSearch?: boolean;
+  inputSearchClassName?: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, isSearch, ...props }, ref) => {
+  ({ className, type, isSearch, inputSearchClassName, ...props }, ref) => {
     if (isSearch)
       return (
         <div
@@ -22,7 +23,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {...props}
             type="search"
             ref={ref}
-            className="w-full p-2 placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+            className={cn(
+              "w-full p-2 placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+              inputSearchClassName
+            )}
           />
           <SearchIcon className="h-6 w-6" />
         </div>
